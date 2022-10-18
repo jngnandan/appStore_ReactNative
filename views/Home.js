@@ -1,14 +1,9 @@
 
 
-import { StyleSheet, Text, View, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, SafeAreaView } from 'react-native'
 import React from 'react'
-
-const tabsList = [
-  { tabId: 'SOCIAL', displayText: 'Social' },
-  { tabId: 'GAMES', displayText: 'Games' },
-  { tabId: 'NEWS', displayText: 'News' },
-  { tabId: 'FOOD', displayText: 'Food' },
-]
+import AppSection from './Section'
+import Section from './Section'
 
 const appsList = [
   {
@@ -292,14 +287,42 @@ const appsList = [
   },
 ]
 
+const tabsList = [
+  { tabId: 'SOCIAL', displayText: 'Social' },
+  { tabId: 'GAMES', displayText: 'Games' },
+  { tabId: 'NEWS', displayText: 'News' },
+  { tabId: 'FOOD', displayText: 'Food' },
+]
+
 
 const Home = () => {
   return (
-    <View style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}>
+    <SafeAreaView style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}>
       <Text style={{paddingTop: 100, fontSize: 30, fontWeight: '700'}}>App Store</Text>
         <TextInput placeholder='Search' style={{width: 300, height: 40, border: 1, borderWidth: 1, borderRadius: 4, marginTop: 16, paddingLeft: 10}} />
+        {/* Tabs */}
+        <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+           {tabsList.map(eachTab => {
+                return (
+                <TouchableOpacity>
+                    <Text style={{padding: 16, fontSize: 16, fontWeight: '700', textAlign: 'center',}}>{eachTab.displayText}</Text>
+                    </TouchableOpacity>
+                )
+           })} 
+        </View>
 
-    </View>
+        {/* Apps */}
+        <View>
+        <FlatList
+        data={appsList}
+        renderItem={({item}) => (<Section appsList={item} />)}
+        keyExtractor={item => item.appId}
+        numColumns={2}
+      />
+
+        </View>
+
+    </SafeAreaView>
   )
 }
 
