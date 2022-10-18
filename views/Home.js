@@ -5,6 +5,9 @@ import React from 'react'
 import AppSection from './Section'
 import Section from './Section'
 
+import {useState} from 'react'
+import Tab from './Tab'
+
 const appsList = [
   {
     appId: 0,
@@ -296,17 +299,27 @@ const tabsList = [
 
 
 const Home = () => {
+    const [activeTabId, setActiveTabId] = useState('SOCIAL')
+    const [searchInput, setSearchInput] = useState('')
+
+    const onChangeSearchInput = Text => {
+        setSearchInput(Text)
+    }
+    
+    const filteredSearch = appsList.filter(eachApp => eachApp.appName.toLowerCase().includes(searchInput.toLowerCase()))
+
+    const filteredApps = filteredSearch.filter(eachApp => eachApp.category === activeTabId)
+
+
   return (
     <SafeAreaView style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}>
       <Text style={{paddingTop: 100, fontSize: 30, fontWeight: '700'}}>App Store</Text>
-        <TextInput placeholder='Search' style={{width: 300, height: 40, border: 1, borderWidth: 1, borderRadius: 4, marginTop: 16, paddingLeft: 10}} />
+        <TextInput onChangeText={onChangeSearchInput} placeholder='Search' style={{width: 300, height: 40, border: 1, borderWidth: 1, borderRadius: 4, marginTop: 16, paddingLeft: 10}} />
         {/* Tabs */}
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
            {tabsList.map(eachTab => {
                 return (
-                <TouchableOpacity>
-                    <Text style={{padding: 16, fontSize: 16, fontWeight: '700', textAlign: 'center',}}>{eachTab.displayText}</Text>
-                    </TouchableOpacity>
+                <Tab tabsList={eachTab} isActive={eachTab.tabId}/>
                 )
            })} 
         </View>
@@ -314,7 +327,7 @@ const Home = () => {
         {/* Apps */}
         <View>
         <FlatList
-        data={appsList}
+        data={filteredApps}
         renderItem={({item}) => (<Section appsList={item} />)}
         keyExtractor={item => item.appId}
         numColumns={2}
