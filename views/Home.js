@@ -310,16 +310,21 @@ const Home = () => {
 
     const filteredApps = filteredSearch.filter(eachApp => eachApp.category === activeTabId)
 
+    const updateTab = tabId => {
+        setActiveTabId(tabId)
+    }
+
+    
 
   return (
     <SafeAreaView style={{flexDirection: 'column', justifyContent: 'center', alignItems: 'center',}}>
-      <Text style={{paddingTop: 100, fontSize: 30, fontWeight: '700'}}>App Store</Text>
+      <Text style={{paddingTop: 100, fontSize: 30, fontWeight: '700', marginTop: 4}}>App Store</Text>
         <TextInput onChangeText={onChangeSearchInput} placeholder='Search' style={{width: 300, height: 40, border: 1, borderWidth: 1, borderRadius: 4, marginTop: 16, paddingLeft: 10}} />
         {/* Tabs */}
         <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
            {tabsList.map(eachTab => {
                 return (
-                <Tab tabsList={eachTab} isActive={eachTab.tabId}/>
+                <Tab tabsList={eachTab} updateTab={updateTab} isActive={eachTab.tabId}/>
                 )
            })} 
         </View>
